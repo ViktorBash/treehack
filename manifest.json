@@ -1,10 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "Gmail Summarizer",
+  "description": "Summarize your last 24 hours of emails",
   "version": "1.0",
   "action": {
-    "default_popup": "hello.html",
+    "default_popup": "index.html",
     "default_icon": "placeholder.png"
-  }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "oauth2": {
+    "client_id": "418330807625-2ajscg8hk9jsejkhsdlda95nft3ekq48.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/userinfo.email", "openid", "email", "profile", "https://mail.google.com/"]
+  },
+  "permissions": [
+    "identity",
+  "https://accounts.google.com/o/oauth2/token"
+  ]
 }
