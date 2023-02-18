@@ -1,2 +1,2 @@
-# treehack
-Treehack project
+# Treehacks
+Treehacks project
