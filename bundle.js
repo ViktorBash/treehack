@@ -83,7 +83,7 @@ global.window.base64url = base64Reference;
 
 let emailArray = [];
 
-const gptkey = "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";
+let gptkey;
 
 function displayResponse(summary){
     console.log(summary);
