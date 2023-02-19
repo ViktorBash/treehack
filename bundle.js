@@ -83,12 +83,18 @@ global.window.base64url = base64Reference;
 
 let emailArray = [];
 
+function machineLearning() {
+  // TODO: Use machine learning analysis, render summary to screen
+  console.log("Machine learning!");
+  console.log(emailArray);
+}
+
 function getGmailData(token) {
   fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json', {json: true, headers: {'Authorization': 'Bearer ' + token}})
   .then((userInfoResponse) => userInfoResponse.json()).then((userInfoResponse) => {
     // console.log(userInfoResponse);
     fetch(`https://content-gmail.googleapis.com/gmail/v1/users/${userInfoResponse.id}/messages?maxResults=10`, {json: true, headers: {'Authorization': 'Bearer ' + token}})
-    .then((messageListResponse) => messageListResponse.json()).then((messageListResponse) => {
+    .then((messageListResponse) => messageListResponse.json()).then(async (messageListResponse) => {
       // Now get the data for each email
       // console.log(messageListResponse)
       for (let index = 0; index < 10; index++) {
@@ -97,23 +103,17 @@ function getGmailData(token) {
         .then((individualEmailResponse) => individualEmailResponse.json()).then((individualEmailResponse) => {
           // console.log(individualEmailResponse);
           const base64Encoded = individualEmailResponse.payload.parts[0].body.data;
-          // Convert this base64 variable to plain text
-          // const base64Decoded = atob(base64Encoded);
-          // let advancedDecoded = base64Encoded.replace(new RegExp('\\+','g'),'%2B');
-          // advancedDecoded = unescape(advancedDecoded);
-          // advancedDecoded = atob(advancedDecoded);
           let advancedDecoded = base64url.decode(base64Encoded);
-
-          // console.log(base64Decoded);
-          // console.log(advancedDecoded);
-
           emailArray.push(advancedDecoded);
-          // console.log(base64Encoded)
         });
+        if (index === 9) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          machineLearning();
+        }
       }
-      console.log(emailArray);
     });
   })
+
 }
 
 window.onload = function() {
