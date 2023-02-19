@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "base64url": "^3.0.1",
+    "browserify": "^17.0.0"
+  }
+}
