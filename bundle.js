@@ -83,8 +83,47 @@ global.window.base64url = base64Reference;
 
 let emailArray = [];
 
+const gptkey = "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";
+
+function displayResponse(summary){
+    console.log(summary);
+    var ul = document.getElementById("summary");
+    var li = document.createElement('li');
+    li.innerHTML = summary;
+    ul.appendChild(li);
+
+}
+
+async function getResponse(text){
+    console.log("Calling... ");
+    const url = "https://api.openai.com/v1/completions";
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${gptkey}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "model": "text-davinci-003",
+            "prompt": `Summarize the following email in a single sentence: ${text}`,
+            "temperature": 0,
+            "max_tokens": 64,
+            "top_p": 1.0,
+            "frequency_penalty": 0.0,
+            "presence_penalty": 0.0
+        }),
+    }).then(response=>{
+        return response.clone().json()
+    }).then(data=>{
+        displayResponse(data['choices'][0].text);
+    });
+    console.log("Success");
+}
+
 function machineLearning() {
-  // TODO: Use machine learning analysis, render summary to screen
+  for(let i = 0; i < emailArray.length; i++){
+      getResponse(emailArray[i]);
+  }
   console.log("Machine learning!");
   console.log(emailArray);
 }

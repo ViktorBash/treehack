@@ -15,17 +15,14 @@ let emailArray = [];
 const gptkey = "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";
 
 function displayResponse(summary){
-    const p1 = document.createElement('p');
-    const text = document.createTextNode(summary);
-    p1.appendChild(text);
+    console.log(summary);
+    var ul = document.getElementById("summary");
+    var li = document.createElement('li');
+    li.innerHTML = summary;
+    ul.appendChild(li);
 }
 
-async function getResponse(emailArray){
-    const text = "";
-    for(let idx = 0; idx < emailArray.length; idx++){
-        text += emailArray[i];
-        text += "\n";
-    }
+async function getResponse(text){
     console.log("Calling... ");
     const url = "https://api.openai.com/v1/completions";
     const response = await fetch(url, {
@@ -36,7 +33,7 @@ async function getResponse(emailArray){
         },
         body: JSON.stringify({
             "model": "text-davinci-003",
-            "prompt": `Summarize the following emails in a bulleted list: ${text}`,
+            "prompt": `Summarize the following email in a single sentence: ${text}`,
             "temperature": 0,
             "max_tokens": 64,
             "top_p": 1.0,
@@ -52,7 +49,9 @@ async function getResponse(emailArray){
 }
 
 function machineLearning() {
-  getResponse(emailArray);
+  for(let i = 0; i < emailArray.length; i++){
+      getResponse(emailArray[i]);
+  }
   console.log("Machine learning!");
   console.log(emailArray);
 }
